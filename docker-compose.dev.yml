@@ -5,13 +5,15 @@ services:
     build:
       context: ./client
     container_name: client
+    command: npm run dev  # Use npm run dev for hot-reloading
     env_file:
       - ./client/.env.docker
     volumes:
-      - ./client:/usr/src/app          
+      - ./client:/usr/src/app  # Sync host and container directories          
       - /usr/src/app/.output            
       - /usr/src/app/node_modules       
-    
+    ports:
+      - "3000:3000"  # Expose Nuxt.js development server port
     networks:
       - app-network
 
@@ -19,7 +21,7 @@ services:
     build:
       context: .
     container_name: api
-    command: php artisan migrate
+    command: php artisan serve --host=0.0.0.0 --port=8001  # Serve Laravel on port 8001
     volumes:
       - .:/var/www
       - /var/www/vendor
@@ -68,6 +70,5 @@ networks:
   app-network:
     driver: bridge
 
-  
 volumes:
   postgres:

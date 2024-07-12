@@ -39,6 +39,8 @@ RUN composer install --ignore-platform-req=php
 # Change current user to www-data
 USER www-data
 
+COPY .env.docker .env
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
